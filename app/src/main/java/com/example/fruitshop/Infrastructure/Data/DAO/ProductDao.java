@@ -37,4 +37,6 @@ public interface ProductDao {
     LiveData<Boolean> getFavoriteState(int productId, long userId);
     @Query("SELECT * FROM products INNER JOIN favorites ON products.id = favorites.productId WHERE favorites.userId = :userId")
     LiveData<List<Product>> getFavoriteProducts(long userId);
+    @Query("SELECT products.* FROM products INNER JOIN categories ON products.categoryId = categories.id WHERE categories.id = :categoryId")
+    LiveData<List<Product>> getProductsByCategory(int categoryId);
 }

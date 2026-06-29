@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "users")
-public class User {
+public class User implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String name;
@@ -14,6 +16,12 @@ public class User {
     private String passwordHash;
     @Nullable
     private String imageUrl;
+    @Nullable
+    private String address;
+    @Nullable
+    private String birthDay;
+    @Nullable
+    private String gender;
 
     public User() {
     }
@@ -23,6 +31,33 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.imageUrl = imageUrl;
+    }
+
+    @Nullable
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@Nullable String address) {
+        this.address = address;
+    }
+
+    @Nullable
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(@Nullable String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    @Nullable
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(@Nullable String gender) {
+        this.gender = gender;
     }
 
     public long getId() {

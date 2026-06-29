@@ -29,6 +29,7 @@ import com.example.fruitshop.Application.ViewModel.ProductViewModel;
 import com.example.fruitshop.Domain.Entities.Category;
 import com.example.fruitshop.Domain.Entities.Product;
 import com.example.fruitshop.Presenter.Custom.MyModal;
+import com.example.fruitshop.Presenter.Custom.MyToast;
 import com.example.fruitshop.R;
 import com.example.fruitshop.databinding.ActivityUpdateProductBinding;
 
@@ -151,6 +152,22 @@ public class UpdateProductActivity extends ChooseImageActivity {
         });
 
         binding.btnUpdate.setOnClickListener(v->{
+            if(binding.edtName.getText().toString().equals("")){
+                MyToast.showError(this,"Tên không được để trống");
+                return;
+            }
+            if(binding.edtUnit.getText().toString().equals("")){
+                MyToast.showError(this,"Đơn vị không được để trống");
+                return;
+            }
+            if(binding.edtPrice.getText().toString().equals("")){
+                MyToast.showError(this,"Giá tiền không được để trống");
+                return;
+            }
+            if(selectedCategoryId == -1){
+                MyToast.showError(this,"Vui lòng chọn danh mục");
+                return;
+            }
             product.setName(binding.edtName.getText().toString());
             product.setImageUrl(currentImageUrl.toString());
             product.setDescription(binding.edtDescription.getText().toString());

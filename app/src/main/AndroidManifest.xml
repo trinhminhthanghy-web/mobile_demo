@@ -17,6 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Presenter.Activity.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Presenter.Activity.UpdateProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Presenter.Activity.UpdateProductActivity"
             android:exported="false" />
         <activity

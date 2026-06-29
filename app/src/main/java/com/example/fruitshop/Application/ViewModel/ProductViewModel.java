@@ -83,6 +83,9 @@ public class ProductViewModel extends AndroidViewModel {
     public LiveData<List<Product>> getByName(String name){
         return productDao.getByName(name);
     }
+    public LiveData<List<Product>> getProductsByCategory(int categoryId){
+        return productDao.getProductsByCategory(categoryId);
+    }
 
 
 }

@@ -47,6 +47,10 @@ public class CreateCategoryActivity extends ChooseImageActivity {
         binding.btnUpload.setOnClickListener(v->openImagePicker());
 
         binding.btnCreate.setOnClickListener(v->{
+            if(binding.edtName.getText().toString().equals("")){
+                MyToast.showError(this,"Tên không được để trống");
+                return;
+            }
             Category category = new Category();
             category.setName(binding.edtName.getText().toString());
             String imageUrl = saveImageToInternalStorage(currentImageUrl);

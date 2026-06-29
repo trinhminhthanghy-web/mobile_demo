@@ -17,6 +17,7 @@ import com.example.fruitshop.Infrastructure.Data.DAO.CategoryDao;
 import com.example.fruitshop.Infrastructure.Data.DAO.FavoriteDao;
 import com.example.fruitshop.Infrastructure.Data.DAO.OrderDao;
 import com.example.fruitshop.Infrastructure.Data.DAO.ProductDao;
+import com.example.fruitshop.Infrastructure.Data.DAO.StatisticsDao;
 import com.example.fruitshop.Infrastructure.Data.DAO.UserDao;
 import com.example.fruitshop.Infrastructure.Tool.HashUtils;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 @Database(
         entities = {User.class, Category.class, Product.class, Order.class, Favorite.class, DetailOrder.class},
-        version = 4,
+        version = 5,
         exportSchema = false
 )
 @TypeConverters(Converters.class)
@@ -34,6 +35,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract FavoriteDao favoriteDao();
     public abstract OrderDao orderDao();
+    public abstract StatisticsDao statisticsDao();
 
     private static volatile AppDatabase INSTANCE;
 
@@ -44,7 +46,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "app.db")
                             .addCallback(seedDatabaseCallback)
-                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

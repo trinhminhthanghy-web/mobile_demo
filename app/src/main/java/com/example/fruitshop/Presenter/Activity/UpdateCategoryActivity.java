@@ -48,6 +48,10 @@ public class UpdateCategoryActivity extends ChooseImageActivity {
         binding.btnUpload.setOnClickListener(v->openImagePicker());
 
         binding.btnUpdate.setOnClickListener(v->{
+            if(binding.edtName.getText().toString().equals("")){
+                MyToast.showError(this,"Tên không được để trống");
+                return;
+            }
             category.setName(binding.edtName.getText().toString());
             category.setImageUrl(currentImageUrl.toString());
             categoryViewModel.updateCategory(category).thenAccept(x->{

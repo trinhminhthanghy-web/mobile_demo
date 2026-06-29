@@ -18,12 +18,12 @@ public class Order implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private long userId;
-    private Date orderDate;
+    private String orderDate;
     private String status;
     private String paymentMethod;
-    private double totalPrice;
+    private long totalPrice;
 
-    public Order(long userId, Date orderDate, String status, String paymentMethod,double totalPrice) {
+    public Order(long userId, String orderDate, String status, String paymentMethod,long totalPrice) {
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
@@ -31,11 +31,12 @@ public class Order implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public double getTotalPrice() {
+
+    public long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -63,11 +64,11 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 

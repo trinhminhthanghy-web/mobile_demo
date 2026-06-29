@@ -24,9 +24,11 @@ import com.example.fruitshop.Presenter.Event.OnQuantityChangeListener;
 import com.example.fruitshop.R;
 import com.example.fruitshop.databinding.ActivityCartBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CartActivity extends AppCompatActivity implements OnQuantityChangeListener {
     ActivityCartBinding binding;
@@ -34,6 +36,7 @@ public class CartActivity extends AppCompatActivity implements OnQuantityChangeL
     UserHelper userHelper;
     boolean codMethod = true;
     OrderViewModel orderViewModel;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +81,8 @@ public class CartActivity extends AppCompatActivity implements OnQuantityChangeL
                 MyModal.showLoginDialog(this,()-> startActivity(new Intent(v.getContext(), SignInActivity.class)));
                 return;
             }
-            Double totalPrice = Double.parseDouble(binding.txtTotalPrice.getText().toString().replace("đ",""));
-            Order order = new Order(currentUser.getId(),new Date(),"Chưa thanh toán",codMethod ? "COD": "TRANSFER",totalPrice);
+            Long totalPrice = Long.parseLong(binding.txtTotalPrice.getText().toString().replace("đ",""));
+            Order order = new Order(currentUser.getId(),sdf.format(new Date()),"Chưa thanh toán",codMethod ? "COD": "TRANSFER",totalPrice);
             List<DetailOrder> detailOrders = new ArrayList<>();
             productCarts.forEach(productCart -> {
                 DetailOrder detailOrder = new DetailOrder(productCart.getId(),productCart.getQuantity(),productCart.getPrice());
@@ -99,9 +102,9 @@ public class CartActivity extends AppCompatActivity implements OnQuantityChangeL
     }
     private void loadTotalPrice(){
         ArrayList<ProductCart> productCarts = cartHelper.getProductsInCart();
-        double totalPrice = 0;
+        long totalPrice = 0;
         for (ProductCart product : productCarts) {
-            totalPrice += product.getPrice() * product.getQuantity();
+            totalPrice += (long)( product.getPrice() * product.getQuantity());
         }
         binding.txtTotalPrice.setText(totalPrice + "đ");
     }

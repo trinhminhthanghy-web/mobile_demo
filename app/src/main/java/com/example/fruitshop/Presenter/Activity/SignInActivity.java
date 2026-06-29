@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.fruitshop.Application.ViewModel.UserViewModel;
 import com.example.fruitshop.Domain.Entities.User;
 import com.example.fruitshop.Infrastructure.Data.UserHelper;
+import com.example.fruitshop.Infrastructure.Tool.Extension;
 import com.example.fruitshop.Infrastructure.Tool.HashUtils;
 import com.example.fruitshop.Presenter.Custom.MyToast;
 import com.example.fruitshop.R;
@@ -53,17 +54,18 @@ public class SignInActivity extends AppCompatActivity {
         String password = binding.edtPassword.getText().toString();
         binding.btnLogin.setClickable(false);
         binding.btnLogin.setBackgroundResource(R.drawable.btn_primary_disable);
-        User user = userViewModel.getUserByEmail(email).getValue();
-        if(user != null && user.getPasswordHash().equals(HashUtils.sha256(password))){
-            userHelper.saveUser(user);
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-            finish();
-        }else{
-            MyToast.showError(this,"Tài khoản hoặc mật khẩu không hợp lệ");
-            binding.btnLogin.setClickable(true);
-            binding.btnLogin.setBackgroundResource(R.drawable.btn_primary);
-        }
+        Extension.observeOnce(userViewModel.getUserByEmail(email),this,user -> {
+            if(user != null && user.getPasswordHash().equals(HashUtils.sha256(password))){
+                userHelper.saveUser(user);
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+                finish();
+            }else{
+                MyToast.showError(this,"Tài khoản hoặc mật khẩu không hợp lệ");
+                binding.btnLogin.setClickable(true);
+                binding.btnLogin.setBackgroundResource(R.drawable.btn_primary);
+            }
+        });
     }
 }

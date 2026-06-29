@@ -15,6 +15,7 @@ import com.example.fruitshop.Domain.Entities.User;
 import com.example.fruitshop.Infrastructure.Data.UserHelper;
 import com.example.fruitshop.Presenter.Activity.AdminActivity;
 import com.example.fruitshop.Presenter.Activity.SignInActivity;
+import com.example.fruitshop.Presenter.Activity.UpdateProfileActivity;
 import com.example.fruitshop.R;
 import com.example.fruitshop.databinding.FragmentProfileBinding;
 
@@ -32,7 +33,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater);
         userHelper = new UserHelper(requireContext());
-        // Inflate the layout for this fragment
         return binding.getRoot();
     }
 
@@ -44,8 +44,11 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireContext(), AdminActivity.class));
         });
 
+        binding.btnUpdateInfo.setOnClickListener(v->{
+            startActivity(new Intent(requireContext(), UpdateProfileActivity.class));
+        });
+
         binding.btnLogOut.setOnClickListener(v->{
-            User user = userHelper.getUserSigned();
             userHelper.removeUser();
             Intent intent = new Intent(v.getContext(), SignInActivity.class);
             startActivity(intent);

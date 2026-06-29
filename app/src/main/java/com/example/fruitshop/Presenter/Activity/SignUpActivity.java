@@ -60,14 +60,13 @@ public class SignUpActivity extends AppCompatActivity {
                         .thenAccept(id -> {
                             newUser.setId(id);
                             userHelper.saveUser(newUser);
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            startActivity(intent);
-                            finish(); // Close SignUpActivity
-                        })
-                        .exceptionally(ex -> {
-                            MyToast.showError(this, "An error occurred: " + ex.getMessage());
-                            return null;
+                            runOnUiThread(()->{
+                                MyToast.showSuccess(SignUpActivity.this,"Đăng ký tài khoản thành công");
+                                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                startActivity(intent);
+                                finish();
+                            });
                         });
             }
         });

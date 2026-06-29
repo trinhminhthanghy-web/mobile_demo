@@ -18,8 +18,10 @@ import com.example.fruitshop.Domain.Entities.Order;
 import com.example.fruitshop.Infrastructure.Tool.Extension;
 import com.example.fruitshop.databinding.ProductOrderedViewholderBinding;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
     ProductOrderedViewholderBinding binding;
@@ -28,6 +30,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     OrderViewModel orderViewModel;
     ProductViewModel productViewModel;
     LifecycleOwner lifecycleOwner;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     public OrderAdapter(ArrayList<DetailOrder> detailOrders, OrderViewModel orderViewModel,ProductViewModel productViewModel,LifecycleOwner lifecycleOwner) {
         this.detailOrders = detailOrders;
@@ -48,7 +51,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
         DetailOrder detailOrder = detailOrders.get(position);
         Extension.observeOnce(orderViewModel.getOrderById(detailOrder.getOrderId()),lifecycleOwner,order -> {
-            holder.binding.txtOrderDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderDate()));
+            try {
+                holder.binding.txtOrderDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(sdf.parse(order.getOrderDate())));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         });
         Extension.observeOnce(productViewModel.getProductById(detailOrder.getProductId()),lifecycleOwner,product -> {
             if(product.getImageUrl().contains("/")){

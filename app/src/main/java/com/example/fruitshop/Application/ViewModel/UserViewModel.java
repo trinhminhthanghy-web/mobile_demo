@@ -32,6 +32,11 @@ public class UserViewModel extends AndroidViewModel {
     public CompletableFuture<Long> addUser(User user) {
         return CompletableFuture.supplyAsync(() -> userDao.add(user));
     }
+    public CompletableFuture<Void> updateUser(User user){
+        return CompletableFuture.runAsync(()-> {
+            userDao.update(user);
+        });
+    }
     public LiveData<User> getUserById(long id){ return  userDao.getById(id);}
     public LiveData<User> getUserByEmail(String email){
         return userDao.getByEmail(email);

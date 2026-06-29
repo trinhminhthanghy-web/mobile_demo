@@ -20,8 +20,10 @@ import com.example.fruitshop.Presenter.Custom.MyToast;
 import com.example.fruitshop.R;
 import com.example.fruitshop.databinding.OrderManagerViewholderBinding;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OrderManagerAdapter extends RecyclerView.Adapter<OrderManagerAdapter.ViewHolder> {
     ArrayList<Order> orders;
@@ -30,6 +32,7 @@ public class OrderManagerAdapter extends RecyclerView.Adapter<OrderManagerAdapte
     UserViewModel userViewModel;
     OrderManagerViewholderBinding binding;
     LifecycleOwner lifecycleOwner;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     public OrderManagerAdapter(ArrayList<Order> orders, OrderViewModel orderViewModel, UserViewModel userViewModel, LifecycleOwner lifecycleOwner) {
         this.orders = orders;
@@ -53,7 +56,11 @@ public class OrderManagerAdapter extends RecyclerView.Adapter<OrderManagerAdapte
             holder.binding.txtCustomerName.setText(user.getName());
 
         });
-        holder.binding.txtOrderDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderDate()));
+        try {
+            holder.binding.txtOrderDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(sdf.parse(order.getOrderDate())));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         holder.binding.txtTotalPrice.setText(order.getTotalPrice() + "đ");
         holder.binding.txtMethod.setText(order.getPaymentMethod());
         holder.binding.txtStatus.setText(order.getStatus());
